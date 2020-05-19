@@ -2,12 +2,6 @@
 Pong by Anbiya Popal, made with the Arcade module. 
 Includes a start menu, pause menu and an undefeatable bot.
 If it doesnt run, make sure you've installed arcade with 'pip install arcade'
-
-- gameplay
-TODO: make the bot dumb
-
-- style
-TODO: add a dashed line in the middle
 """
 
 import arcade
