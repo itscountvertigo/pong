@@ -19,13 +19,13 @@ BALL_SPEED = 8
 PLAYER_SPEED = 10
 BOT_SPEED = 10
 
-#colors
+# colors
 OFF_WHITE = [230,230,230]
 OFF_BLACK = [29,29,29]
 GRAY = [80, 80, 80]
 
 # what ball.x needs to be before the bot starts moving. 
-# Making this higher/lower makes the bot weaker/stronger. Higher value means weaker bot.
+# making this higher/lower makes the bot weaker/stronger. higher value means weaker bot.
 BOT_ACTIVATION_X = SCREEN_WIDTH / 2 + SCREEN_WIDTH / 5 + 1
 
 class LeftPaddle(): # player, left paddle
@@ -71,7 +71,7 @@ class RightPaddle(): # bot, right paddle
         elif self.y < ball.y and ball.delta_x > 0 and ball.x > BOT_ACTIVATION_X:
             self.y += BOT_SPEED
 
-        # move the bot to screen_height/2 (half way up the screen)
+        # move the bot to screen_height / 2 (half way up the screen)
         elif ball.delta_x < 0:
             if self.y < SCREEN_HEIGHT / 2:
                 self.y += BOT_SPEED
@@ -102,7 +102,7 @@ class Ball():
     
     def update(self, leftpaddle, rightpaddle):
 
-        #letting the ball bounce against top / bottom
+        # letting the ball bounce against top / bottom
         if self.y >= SCREEN_HEIGHT - self.size or self.y - self.size <= 0:
             self.delta_y = -self.delta_y
 
@@ -123,14 +123,14 @@ class Ball():
             self.delta_x = -self.delta_x
             self.score_right += 1
 
-            #random respawn direction
+            # random respawn direction
             if random.choice([True, False]) == True:
                 self.delta_y = -self.delta_y
 
         self.x += self.delta_x
         self.y += self.delta_y
 
-        #collisions with paddles
+        # collisions with paddles
         if self.x <= (leftpaddle.x + (leftpaddle.width / 2) + self.size) and self.y >= leftpaddle.y - (leftpaddle.height / 2)  and self.y <= leftpaddle.y + (leftpaddle.height / 2):
             while self.x <= (leftpaddle.x + (leftpaddle.width / 2) + self.size):
                 self.x += 1
@@ -152,10 +152,10 @@ class Scoreboard():
            pass
 
     def draw(self, ball):
-        #score left
+        # score left
         arcade.draw_text(str(ball.score_left), (SCREEN_WIDTH / 2) - 100, SCREEN_HEIGHT - 75, OFF_WHITE, font_size=40, anchor_x="center", font_name=FONT)
 
-        #score right
+        # score right
         arcade.draw_text(str(ball.score_right), (SCREEN_WIDTH / 2) + 100, SCREEN_HEIGHT - 75, OFF_WHITE, font_size=40, anchor_x="center", font_name=FONT)
 
 class MenuView(arcade.View): # view for the menu
@@ -228,8 +228,8 @@ class PauseView(arcade.View): # view for pause screen. if esc is pressed, this v
 
         self.game_view.ball.draw()
          
-        self.game_view.leftpaddle.draw() #render paused leftpaddle
-        self.game_view.rightpaddle.draw() #render paused rightpaddle
+        self.game_view.leftpaddle.draw() # render paused leftpaddle
+        self.game_view.rightpaddle.draw() # render paused rightpaddle
         self.game_view.scoreboard.draw(self.game_view.ball)
 
         arcade.draw_text("PAUSED", SCREEN_WIDTH/2, SCREEN_HEIGHT/2, OFF_WHITE, font_size=50, anchor_x="center", font_name=FONT)
@@ -247,8 +247,8 @@ def main():
     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
     window.set_update_rate(1 / 60)
-    # Game will start out on whichever view you make this. 
-    # Pick between MenuView() and GameView(), pause doesnt work (it needs a GameView to render)
+    # game will start out on whichever view you make this. 
+    # pick between MenuView() and GameView(), pause doesnt work (it needs a GameView to render)
     start = MenuView()
     window.show_view(start)
 
