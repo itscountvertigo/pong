@@ -12,7 +12,7 @@ FONT = 'fonts/symtext2.ttf'
 # screen properties
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Pong"
+SCREEN_TITLE = "Pong by Anbiya Popal"
 
 # speeds
 BALL_SPEED = 8
