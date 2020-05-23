@@ -7,7 +7,7 @@ If it doesnt run, make sure you've installed arcade with 'pip install arcade'
 import arcade
 import random
 
-FONT = 'fonts/symtext2.ttf'
+FONT = 'symtext2.ttf'
 
 # screen properties
 SCREEN_WIDTH = 800
