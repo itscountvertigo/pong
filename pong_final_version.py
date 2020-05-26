@@ -211,7 +211,7 @@ class GameView(arcade.View): # view for the game
         if key == arcade.key.W:
             self.leftpaddle.move_up = True
 
-        if key == arcade.key.D:
+        if key == arcade.key.S:
             self.leftpaddle.move_down = True
 
         if key == arcade.key.ESCAPE:
