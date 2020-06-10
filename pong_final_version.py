@@ -17,9 +17,9 @@ SCREEN_TITLE = "Pong by Anbiya Popal"
 PADDLE_SPACING = 20
 
 # speeds
-BALL_SPEED = 8
-PLAYER_SPEED = 10
-BOT_SPEED = 10
+BALL_SPEED = 175
+PLAYER_SPEED = 180
+BOT_SPEED = 180
 
 # colors
 OFF_WHITE = [230,230,230]
@@ -42,30 +42,30 @@ class Paddle(): # player, left paddle
         self.move_up = False
         self.move_down = False
 
-    def update(self, ball, isBot):
+    def update(self, ball, isBot, delta_time):
         # movement up and down. self.move_up and self.move_down are switched on/off in GameView's on_key_press/release
         if self.move_up == True:
             if self.y < SCREEN_HEIGHT - (self.height / 2):
-                self.y += PLAYER_SPEED
+                self.y += PLAYER_SPEED * delta_time
 
         if self.move_down == True:
             if self.y > (self.height / 2):
-                self.y -= PLAYER_SPEED
+                self.y -= PLAYER_SPEED * delta_time
 
         if isBot == True:
             # the bot will only start moving if the ball reaches bot_activation_x so the bot doesnt follow ball.x all the time
             if self.y > ball.y and ball.delta_x > 0 and ball.x > BOT_ACTIVATION_X:
-                self.y -= BOT_SPEED
+                self.y -= BOT_SPEED * delta_time
         
             elif self.y < ball.y and ball.delta_x > 0 and ball.x > BOT_ACTIVATION_X:
-                self.y += BOT_SPEED
+                self.y += BOT_SPEED * delta_time
 
             # move the bot to screen_height / 2 (half way up the screen)
             elif ball.delta_x < 0:
                 if self.y < SCREEN_HEIGHT / 2:
-                    self.y += BOT_SPEED
+                    self.y += BOT_SPEED * delta_time
                 if self.y > SCREEN_HEIGHT / 2:
-                    self.y -= BOT_SPEED
+                    self.y -= BOT_SPEED * delta_time
 
     def draw(self, isBot):
         if isBot == True:
@@ -89,7 +89,7 @@ class Ball():
         self.score_left = 0
         self.score_right = 0
     
-    def update(self, leftpaddle, rightpaddle):
+    def update(self, leftpaddle, rightpaddle, delta_time):
 
         # letting the ball bounce against top / bottom
         if self.y >= SCREEN_HEIGHT - self.size or self.y - self.size <= 0:
@@ -117,8 +117,8 @@ class Ball():
             if random.choice([True, False]) == True:
                 self.delta_y = -self.delta_y
 
-        self.x += self.delta_x
-        self.y += self.delta_y
+        self.x += self.delta_x * delta_time
+        self.y += self.delta_y * delta_time
 
         # collision with paddles
         if self.x <= (PADDLE_SPACING + (leftpaddle.width / 2) + self.size) and self.y >= leftpaddle.y - (leftpaddle.height / 2)  and self.y <= leftpaddle.y + (leftpaddle.height / 2):
@@ -188,10 +188,10 @@ class GameView(arcade.View): # view for the game
         self.scoreboard.draw(self.ball) # scoreboard takes ball as an argument for self.score_left/right
 
     def on_update(self, delta_time):
-        self.leftpaddle.update(self.ball, False)
-        self.rightpaddle.update(self.ball, True)
+        self.leftpaddle.update(self.ball, False, delta_time)
+        self.rightpaddle.update(self.ball, True, delta_time)
 
-        self.ball.update(self.leftpaddle, self.rightpaddle)
+        self.ball.update(self.leftpaddle, self.rightpaddle, delta_time)
 
     def on_key_press(self, key, key_modifiers):
         if key == arcade.key.W:
@@ -237,7 +237,7 @@ class PauseView(arcade.View): # view for pause screen. if esc is pressed, this v
 
 def main():
     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    window.set_update_rate(1 / 60)
+    arcade.schedule(window.on_update, 1 / 60)
 
     # game will start out on whichever view you make this. 
     # pick between MenuView() and GameView(), pause doesnt work (it needs a GameView to render)
