@@ -7,7 +7,7 @@ If it doesnt run, make sure you've installed arcade with 'pip install arcade'
 import arcade
 import random
 
-FONT = 'symtext2.ttf'
+FONT = ['symtext2.ttf', 'arial']
 
 # screen properties
 SCREEN_WIDTH = 800
@@ -19,12 +19,12 @@ PADDLE_SPACING = 20
 # speeds
 BALL_SPEED = 175
 PLAYER_SPEED = 180
-BOT_SPEED = 180
+BOT_SPEED = 200
 
 # colors
-OFF_WHITE = [230,230,230]
-OFF_BLACK = [29,29,29]
-GRAY = [80, 80, 80]
+OFF_WHITE = (240, 240, 240)
+OFF_BLACK = (29,29,29)
+GRAY = (80, 80, 80)
 
 # what ball.x needs to be before the bot starts moving. 
 # making this higher/lower makes the bot weaker/stronger. higher value means weaker bot.
